@@ -15,7 +15,7 @@ function extractURLs(htmlString, baseUrl) {
       }
       urls.push(urlObj.href);
     } catch (err) {
-      console.log(err.message);
+      console.log(`error: ${err.message}`);
     }
   });
 
