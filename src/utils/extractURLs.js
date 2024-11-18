@@ -7,6 +7,8 @@ export default function extractURLs(htmlString, baseUrl) {
   const linkElements = [...dom.window.document.querySelectorAll("a")];
 
   linkElements.forEach((linkElement) => {
+    if (!linkElement.href) return;
+
     try {
       let urlObj;
       if (linkElement.href.charAt(0) === "/") {
@@ -16,7 +18,7 @@ export default function extractURLs(htmlString, baseUrl) {
       }
       urls.push(urlObj.href);
     } catch (err) {
-      log.error(err.message);
+      log.error(`${err.message}, element href: ${linkElement.href}`);
     }
   });
 

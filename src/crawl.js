@@ -49,7 +49,7 @@ export default async function crawl(baseUrl, currentUrl, pages) {
       pages = await crawl(baseUrl, nextUrls[i], pages);
     }
   } catch (err) {
-    log.error(`${err.message}`);
+    log.error(`${err.message} for ${currentUrl}`);
   }
 
   return pages;
