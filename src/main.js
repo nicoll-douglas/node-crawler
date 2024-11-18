@@ -1,5 +1,5 @@
 import crawl from "./crawl.js";
-import { log } from "./utils/index.js";
+import { log, report } from "./utils/index.js";
 import chalk from "chalk";
 
 async function main() {
@@ -18,7 +18,7 @@ async function main() {
   log.info(`starting crawl of ${chalk.blue(baseUrl)}`);
   const pages = await crawl(baseUrl, baseUrl, {});
 
-  Object.entries(pages).forEach((page) => console.log(page));
+  report(pages);
 }
 
 main();
