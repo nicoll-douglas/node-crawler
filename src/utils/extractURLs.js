@@ -1,6 +1,7 @@
-const { JSDOM } = require("jsdom");
+import { JSDOM } from "jsdom";
+import log from "./logger.js";
 
-function extractURLs(htmlString, baseUrl) {
+export default function extractURLs(htmlString, baseUrl) {
   const urls = [];
   const dom = new JSDOM(htmlString);
   const linkElements = [...dom.window.document.querySelectorAll("a")];
@@ -15,11 +16,9 @@ function extractURLs(htmlString, baseUrl) {
       }
       urls.push(urlObj.href);
     } catch (err) {
-      console.log(`error: ${err.message}`);
+      log.error(err.message);
     }
   });
 
   return urls;
 }
-
-module.exports = extractURLs;

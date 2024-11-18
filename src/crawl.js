@@ -1,6 +1,7 @@
-const { normalizeURL, extractURLs } = require("./utils");
+import { normalizeURL, extractURLs, log } from "./utils/index.js";
+import chalk from "chalk";
 
-async function crawl(baseUrl, currentUrl, pages) {
+export default async function crawl(baseUrl, currentUrl, pages) {
   const baseUrlObj = new URL(baseUrl);
   const currentUrlObj = new URL(currentUrl);
 
@@ -15,7 +16,7 @@ async function crawl(baseUrl, currentUrl, pages) {
     return pages;
   }
 
-  console.log(`info: actively crawling ${currentUrl}`);
+  log.info(`actively crawling ${chalk.blue(currentUrl)}`);
 
   pages[normalizedCurrentUrl] = 1;
 
@@ -23,14 +24,20 @@ async function crawl(baseUrl, currentUrl, pages) {
     const response = await fetch(currentUrl);
 
     if (response.status > 399) {
-      console.log(`info: received status ${response.status} for ${currentUrl}`);
+      log.warning(
+        `received status ${chalk.yellow(response.status)} for ${chalk.blue(
+          currentUrl
+        )}`
+      );
       return pages;
     }
 
     const contentType = response.headers.get("content-type");
     if (!contentType.includes("text/html")) {
-      console.log(
-        `info: invalid content type for ${currentUrl}, received "${contentType}"`
+      log.warning(
+        `received content type ${chalk.yellow(contentType)} for ${chalk.blue(
+          currentUrl
+        )}`
       );
       return pages;
     }
@@ -42,10 +49,8 @@ async function crawl(baseUrl, currentUrl, pages) {
       pages = await crawl(baseUrl, nextUrls[i], pages);
     }
   } catch (err) {
-    console.log(`error: ${err.message}, for page ${currentUrl}`);
+    log.error(`${err.message}`);
   }
 
   return pages;
 }
-
-module.exports = crawl;

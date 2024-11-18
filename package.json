@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "dev": "nodemon ./src/main.js",
@@ -19,6 +20,7 @@
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
     "jsdom": "^25.0.1"
   }
 }
